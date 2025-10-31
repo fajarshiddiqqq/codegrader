@@ -18,7 +18,17 @@
     });
 
     onMount(async () => {
-        loader.config({ paths: { vs: "/node_modules/monaco-editor/min/vs" } });
+        if (import.meta.env.DEV) {
+            loader.config({
+                paths: { vs: "/node_modules/monaco-editor/min/vs" },
+            });
+        } else {
+            loader.config({
+                paths: {
+                    vs: "https://cdn.jsdelivr.net/npm/monaco-editor@0.54.0/min/vs",
+                },
+            });
+        }
         const monaco = await loader.init();
 
         editor = monaco.editor.create(container, {
@@ -53,5 +63,5 @@
     <slot name="header" {cursorPos} />
 
     <!-- Monaco container -->
-    <div bind:this={container} class="h-full w-full" ></div>
+    <div bind:this={container} class="h-full w-full"></div>
 </div>
