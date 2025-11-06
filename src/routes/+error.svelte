@@ -7,13 +7,5 @@
 >
     <h1 class="text-6xl font-bold">404</h1>
     <p class="text-xl mt-4">Page Not Found</p>
-    <a href="/" class="btn mt-6">Go Home</a>
+    <a href="/" class="mt-6 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition">Go Home</a>
 </div>
-
-<style lang="postcss">
-    @reference "tailwindcss";
-
-    .btn {
-        @apply px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition;
-    }
-</style>

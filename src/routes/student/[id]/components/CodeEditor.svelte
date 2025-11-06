@@ -29,7 +29,7 @@
                 },
             });
         }
-        const monaco = await loader.init();
+        const monaco = await loader.init();``
 
         editor = monaco.editor.create(container, {
             value,

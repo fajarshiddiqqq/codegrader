@@ -2,13 +2,13 @@
     let searchQuery = $state("");
 </script>
 
-<div class="text-center mb-32">
+<div class="text-center my-32">
     <h1
         class="text-5xl md:text-7xl font-bold text-slate-900 mb-6 leading-tight"
     >
         Master Coding with AI That<br />
         <span
-            class="bg-linear-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent"
+            class="text-primary"
             >Grades Like a Teacher</span
         >
     </h1>
@@ -43,7 +43,7 @@
     </a> -->
     <button
         onclick={() => alert("Start Practicing Now clicked!")}
-        class="px-8 py-4 bg-linear-to-r from-indigo-600 to-indigo-700 text-white text-xl font-semibold rounded-full shadow-md hover:shadow-xl hover:scale-105 transition-all duration-200"
+        class="px-8 py-4 bg-primary text-white text-xl font-semibold rounded-full shadow-md hover:shadow-xl hover:scale-105 transition-all duration-200"
     >
         Start Practicing Now
     </button>

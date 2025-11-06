@@ -3,40 +3,27 @@
 </script>
 
 <nav
-    class="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-50"
+    class="bg-white/80 backdrop-blur-md border-b border-slate-200 fixed w-full top-0 z-50"
 >
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
-            <div class="shrink-0">
+            <a href="/" class="shrink-0">
                 <span
                     class="text-2xl font-bold bg-linear-to-r bg-clip-text text-primary"
                     >CodeGrader</span
                 >
-            </div>
+            </a>
             <div class="hidden md:flex space-x-4">
-                <!-- <a
-                    href="/login"
-                    class="px-4 py-2 text-primary font-medium transition-colors"
-                    >Start Exploring</a
-                > -->
-                <button
-                    onclick={() => alert("Start Exploring clicked!")}
-                    class="px-4 py-2 text-primary font-medium transition-colors"
-                    >Start Exploring</button
+                <a
+                    href="/dashboard"
+                    class="px-4 py-2 text-gray-700 font-medium transition-colors"
+                    >Dashboard</a
                 >
-                <!-- <a
-                    href="/s/demo123"
-                    class="px-6 py-2 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg font-medium"
-                    >Try Demo</a
-                > -->
-                <button
-                    class="px-6 py-2 bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all shadow-md hover:shadow-lg font-medium"
-                    onclick={() => {
-                        alert("Demo link clicked!");
-                    }}
+                <a
+                    href="/questions"
+                    class="px-4 py-2 bg-primary text-white transition-all shadow-md hover:shadow-lg font-medium hover:scale-105"
+                    >Explore</a
                 >
-                    Try Demo
-                </button>
             </div>
             <button
                 onclick={() => (mobileMenuOpen = !mobileMenuOpen)}
@@ -60,33 +47,19 @@
         </div>
     </div>
     {#if mobileMenuOpen}
-        <div class="md:hidden border-t border-slate-200 bg-white">
-            <div class="px-4 py-4 space-y-3">
-                <!-- <a
-                    href="/teacher"
-                    class="block px-4 py-2 text-center text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50"
-                    >Start Exploring</a
-                >
-                <a
-                    href="/s/demo123"
-                    class="block px-4 py-2 text-center bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-lg"
-                    >Try Demo</a
-                > -->
-                <button
-                    onclick={() => alert("Start Exploring clicked!")}
-                    class="block w-full px-4 py-2 text-center text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50"
-                >
-                    Start Exploring
-                </button>
-                <button
-                    onclick={() => {
-                        alert("Demo link clicked!");
-                    }}
-                    class="block w-full px-4 py-2 text-center bg-linear-to-r from-blue-600 to-indigo-600 text-white rounded-lg"
-                >
-                    Try Demo
-                </button>
-            </div>
+        <div class="md:hidden border-t border-slate-200 bg-white w-full">
+            <a
+                href="/dashboard"
+                class="block w-full text-center text-gray-700 hover:bg-gray-100 py-3"
+            >
+                Dashboard
+            </a>
+            <a
+                href="/questions"
+                class="block w-full text-center text-gray-700 hover:bg-gray-100 py-3 font-bold "
+            >
+                Start Exploring
+            </a>
         </div>
     {/if}
 </nav>
