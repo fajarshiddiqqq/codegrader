@@ -22,7 +22,7 @@
                 class="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-slate-100 transition-colors {isActive(
                     'users'
                 )
-                    ? 'bg-slate-100 border-l-4 border-blue-500 font-medium'
+                    ? 'bg-gray-100 border-l-4 border-primary font-medium'
                     : ''}"
             >
                 Users
