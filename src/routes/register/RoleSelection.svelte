@@ -8,9 +8,7 @@
     }
 </script>
 
-<div
-    class="py-24 px-8 md:px-24 w-full col-span-5 xl:col-span-3 bg-white md:shadow-lg relative"
->
+<div class="py-24 px-8 md:px-24 w-full col-span-5 xl:col-span-3 bg-white md:shadow-lg relative translate-y-[-16.6%]">
     <a
         href="/login"
         class="absolute top-8 left-8 text-primary/80 font-semibold flex items-center hover:text-primary transition-all group"

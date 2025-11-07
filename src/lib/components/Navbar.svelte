@@ -5,9 +5,9 @@
 </script>
 
 <nav
-    class="bg-white/80 backdrop-blur-md border-b border-slate-200 fixed w-full top-0 z-50"
+    class="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky w-full top-0 z-50"
 >
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 xl:px-0">
+    <div class="px-4 sm:px-6 lg:px-12">
         <div class="flex justify-between items-center h-16">
             <a class="shrink-0" href="/">
                 <span
@@ -23,9 +23,9 @@
                     >Questions</a
                 >
                 <a
-                    href="/profile"
+                    href="/dashboard"
                     class="text-gray-700 hover:text-gray-700 font-medium transition"
-                    >Profile</a
+                    >Dashboard</a
                 >
             </div>
 
@@ -44,10 +44,10 @@
                 Questions
             </a>
             <a
-                href="/profile"
+                href="/dashboard"
                 class="block w-full text-center text-gray-700 hover:bg-gray-100 py-3"
             >
-                Profile
+                Dashboard
             </a>
         </div>
     {/if}
