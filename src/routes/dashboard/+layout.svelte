@@ -5,7 +5,7 @@
 
 <div class="flex flex-col h-screen">
     <Navbar />
-    <main class="flex-1 flex justify-center items-center w-full">
+    <main class="flex-1 flex w-full min-h-0">
         {@render children()}
     </main>
 </div>

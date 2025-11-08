@@ -21,8 +21,6 @@
     let { data }: { data: PageData } = $props();
     let questions: Question[] = data.questions;
 
-    console.log("Loaded questions:", questions);
-
     // State management
     let searchQuery: string = $state("");
     let sortBy: string = $state("popular");

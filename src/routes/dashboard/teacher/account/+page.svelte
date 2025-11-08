@@ -1,4 +1,5 @@
 
+<div class="bg-white flex-1 w-full overflow-y-auto rounded-xl border border-slate-200 h-full">
     <!-- make not implemented notice -->
     <div class="flex flex-col items-center justify-center h-full p-6 text-center gap-4">
         <svg
@@ -22,3 +23,4 @@
             We're working hard to bring this feature to you soon. Stay tuned!
         </p>
     </div>
+</div>

@@ -15,14 +15,14 @@
             </a>
             <div class="hidden md:flex space-x-4">
                 <a
-                    href="/dashboard"
-                    class="px-4 py-2 text-gray-700 font-medium transition-colors"
-                    >Dashboard</a
-                >
-                <a
                     href="/questions"
                     class="px-4 py-2 bg-primary text-white transition-all shadow-md hover:shadow-lg font-medium hover:scale-105"
                     >Explore</a
+                >
+                <a
+                    href="/dashboard"
+                    class="px-4 py-2 text-gray-700 font-medium transition-colors"
+                    >Dashboard</a
                 >
             </div>
             <button

@@ -66,7 +66,7 @@
                     </div>
                     <div class="flex sm:flex-col flex-row gap-2 shrink-0 w-full sm:w-auto">
                         <button class="border border-slate-200 px-4 py-2 rounded-md text-sm whitespace-nowrap hover:bg-gray-50 flex-1 sm:flex-none">Preview</button>
-                        <button class="bg-primary font-semibold text-white px-4 py-2 rounded-md text-sm whitespace-nowrap hover:bg-primary/90 flex-1 sm:flex-none">Start</button>
+                        <a href={`/questions/${question.key}`} class="bg-primary font-semibold text-white px-4 py-2 rounded-md text-sm whitespace-nowrap hover:bg-primary/90 flex-1 sm:flex-none text-center">Start</a>
                     </div>
                 </div>
             </div>
