@@ -2,6 +2,7 @@
     import BurgerBar from "./BurgerBar.svelte";
 
     let mobileMenuOpen = $state(false);
+    let { data } = $props();
 </script>
 
 <nav
@@ -12,7 +13,7 @@
             <a class="shrink-0" href="/">
                 <span
                     class="text-2xl font-bold bg-linear-to-r bg-clip-text text-primary"
-                    >CodeGrader</span
+                    >E-Learning</span
                 >
             </a>
 
@@ -22,11 +23,19 @@
                     class="text-gray-700 hover:text-gray-700 font-medium transition"
                     >Questions</a
                 >
-                <a
-                    href="/dashboard"
-                    class="text-gray-700 hover:text-gray-700 font-medium transition"
-                    >Dashboard</a
-                >
+                {#if data?.user}
+                    <a
+                        href="/dashboard"
+                        class="text-gray-700 hover:text-gray-700 font-medium transition"
+                        >Dashboard</a
+                    >
+                {:else}
+                    <a
+                        href="/login"
+                        class="text-gray-700 hover:text-gray-700 font-medium transition"
+                        >Login</a
+                    >
+                {/if}
             </div>
 
             <BurgerBar

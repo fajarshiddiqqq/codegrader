@@ -16,7 +16,7 @@ export const actions = {
 
         // Generate a random short code for the URL
         const shortCode = Math.random().toString(36).substring(2, 8);
-        const publishedUrl = `https://myapp.com/s/${shortCode}`;
+        const publishedUrl = `${import.meta.env.VITE_APP_URL}/s/${shortCode}`;
 
         // Return clean object (don't double-stringify)
         return { 

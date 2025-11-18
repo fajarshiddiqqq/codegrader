@@ -1,10 +1,11 @@
 <script>
     import Navbar from "$lib/components/Navbar.svelte";
     import LoginForm from "./LoginForm.svelte";
+    let { data } = $props();
 </script>
 
 <div class="flex flex-col h-screen">
-    <Navbar />
+    <Navbar {data} />
     <main class="flex-1 flex justify-center items-center md:bg-accent">
         <div class="w-full md:shadow-xl max-w-3xl lg:max-w-5xl xl:max-w-7xl grid grid-cols-5">
             <LoginForm />

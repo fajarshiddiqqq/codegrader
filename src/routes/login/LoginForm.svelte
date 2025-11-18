@@ -1,15 +1,39 @@
 <script>
+    import { enhance } from "$app/forms";
+
     let loading = $state(false);
+    let message = $state("");
 </script>
 
-<form action="" class="py-24 px-8 md:px-24 w-full col-span-5 xl:col-span-3 bg-white">
+<form
+    method="POST"
+    class="py-24 px-8 md:px-24 w-full col-span-5 xl:col-span-3 bg-white"
+    use:enhance={() => {
+        loading = true;
+        message = "";
+        return async ({ update, result }) => {
+            await update();
+            loading = false;
+            if (result.type === 'failure') {
+                message = result.data?.error || "Login failed. Please try again.";
+                return;
+            }
+        };
+    }}
+>
     <div class="mb-8">
         <h1 class="text-5xl mb-3 font-serif text-gray-700">Learn. Submit.</h1>
         <h1 class="text-5xl mb-3 font-serif text-gray-700">Get AI Feedback.</h1>
     </div>
 
+    {#if message}
+        <div class="mb-4 p-3 rounded-md border border-red-500 bg-red-100 text-red-700">
+            {message}
+        </div>
+    {/if}
+
     <div class="mb-6 flex flex-col gap-2 w-full">
-        <label for="email">Username or Email</label>
+        <label for="email">Email</label>
         <input
             type="email"
             id="email"
@@ -56,10 +80,7 @@
 
     <p class="mt-6 text-center text-gray-600">
         Don't have an account?
-        <a
-            class="text-primary font-semibold cursor-pointer"
-            href="/register"
-        >
+        <a class="text-primary font-semibold cursor-pointer" href="/register">
             Sign up
         </a>
     </p>

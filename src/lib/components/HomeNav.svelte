@@ -1,5 +1,6 @@
 <script>
     let mobileMenuOpen = $state(false);
+    let { data } = $props();
 </script>
 
 <nav
@@ -10,7 +11,7 @@
             <a href="/" class="shrink-0">
                 <span
                     class="text-2xl font-bold bg-linear-to-r bg-clip-text text-primary"
-                    >CodeGrader</span
+                    >E-Learning</span
                 >
             </a>
             <div class="hidden md:flex space-x-4">
@@ -19,11 +20,19 @@
                     class="px-4 py-2 bg-primary text-white transition-all shadow-md hover:shadow-lg font-medium hover:scale-105"
                     >Explore</a
                 >
-                <a
-                    href="/dashboard"
-                    class="px-4 py-2 text-gray-700 font-medium transition-colors"
-                    >Dashboard</a
-                >
+                {#if data?.user}
+                    <a
+                        href="/dashboard"
+                        class="px-4 py-2 text-gray-700 font-medium transition-colors"
+                        >Dashboard</a
+                    >
+                {:else}
+                    <a
+                        href="/login"
+                        class="px-4 py-2 text-gray-700 font-medium transition-colors"
+                        >Login</a
+                    >
+                {/if}
             </div>
             <button
                 onclick={() => (mobileMenuOpen = !mobileMenuOpen)}

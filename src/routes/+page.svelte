@@ -5,6 +5,8 @@
     import TopicBrowser from "$lib/components/TopicBrowser.svelte";
     import TrendingProblems from "$lib/components/TrendingProblems.svelte";
 
+    let { data } = $props();
+
     let searchQuery = "";
     let mobileMenuOpen = false;
 
@@ -45,7 +47,7 @@
 
 <div class="min-h-screen bg-linear-to-br from-slate-50 via-white to-indigo-50">
     <!-- Navigation -->
-    <HomeNav />
+    <HomeNav {data}/>
 
     <!-- Hero Section -->
     <div class="container mx-auto px-4 py-16 md:py-24">

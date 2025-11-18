@@ -99,7 +99,7 @@
 </script>
 
 <div class="flex flex-col min-h-screen bg-gray-100">
-    <Navbar />
+    <Navbar {data} />
 
     <div class="w-full max-w-7xl mx-auto px-4 py-4">
         <!-- Top search and sort -->

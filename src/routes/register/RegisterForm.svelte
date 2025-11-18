@@ -1,22 +1,16 @@
 <script lang="ts">
+    import { enhance } from "$app/forms";
     import { page } from "$app/state";
     import { goto } from "$app/navigation";
 
     let loading = $state(false);
+    let errorMessage = $state("");
+    let message = $state("");
+
     let showPassword = $state(false);
     let showConfirmPassword = $state(false);
 
     let selectedRole = $derived(page.url.searchParams.get("role") || "");
-
-    function handleSubmit(e: Event) {
-        e.preventDefault();
-        loading = true;
-        // Handle registration logic here
-        setTimeout(() => {
-            loading = false;
-            alert("Registration not implemented yet");
-        }, 2000);
-    }
 
     function goBack() {
         goto("/register");
@@ -24,8 +18,30 @@
 </script>
 
 <form
-    onsubmit={handleSubmit}
+    method="POST"
     class="py-24 px-8 md:px-24 w-full col-span-5 xl:col-span-3 bg-white md:shadow-lg relative grid grid-cols-2 gap-4"
+    use:enhance={() => {
+        loading = true;
+        errorMessage = "";
+        return async ({ update, result }) => {
+            await update();
+            loading = false;
+            if (result.type === "failure") {
+                errorMessage =
+                    result.data?.error ||
+                    "Registration failed. Please try again.";
+                return;
+            } else if (result.type === "success") {
+                if (result.data?.message) {
+                    message = result.data.message;
+                    setTimeout(() => {
+                        goto("/");
+                    }, 3000);
+                    return;
+                }
+            }
+        };
+    }}
 >
     <a
         href="/register"
@@ -49,20 +65,23 @@
         </h1>
     </div>
 
-    <div class="mb-2 flex flex-col gap-2 w-full col-span-2 md:col-span-1">
-        <label for="username">Username</label>
-        <input
-            type="text"
-            id="username"
-            name="username"
-            placeholder="johndoe"
-            class="bg-white rounded-md px-6 py-2 text-lg placeholder:text-base border border-gray-300"
-            required
-            disabled={loading}
-        />
-    </div>
+    {#if errorMessage}
+        <div
+            class="mb-4 p-3 rounded-md border border-red-500 bg-red-100 text-red-700 col-span-2"
+        >
+            {errorMessage}
+        </div>
+    {/if}
 
-    <div class="mb-2 flex flex-col gap-2 w-full col-span-2 md:col-span-1">
+    {#if message}
+        <div
+            class="mb-4 p-3 rounded-md border border-green-500 bg-green-100 text-green-700 col-span-2"
+        >
+            {message}
+        </div>
+    {/if}
+
+    <div class="mb-2 flex flex-col gap-2 w-full col-span-2">
         <label for="fullname">Full Name</label>
         <input
             type="text"
@@ -85,6 +104,7 @@
             class="bg-white rounded-md px-6 py-2 text-lg placeholder:text-base border border-gray-300"
             required
             disabled={loading}
+            autocomplete="email"
         />
     </div>
 
@@ -99,6 +119,7 @@
                 class="bg-white rounded-md px-6 py-2 text-lg placeholder:text-base border border-gray-300 w-full pr-12"
                 required
                 disabled={loading}
+                autocomplete="new-password"
             />
             <button
                 type="button"
@@ -128,6 +149,7 @@
                 class="bg-white rounded-md px-6 py-2 text-lg placeholder:text-base border border-gray-300 w-full pr-12"
                 required
                 disabled={loading}
+                autocomplete="new-password"
             />
             <button
                 type="button"
@@ -147,6 +169,8 @@
             </button>
         </div>
     </div>
+
+    <input type="hidden" name="role" value={selectedRole} />
 
     <button
         type="submit"

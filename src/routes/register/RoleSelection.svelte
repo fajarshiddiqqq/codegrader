@@ -58,21 +58,21 @@
         </button>
 
         <button
-            onclick={() => selectRole('student')}
+            disabled
             onmouseenter={() => hoveredRole = 'student'}
             onmouseleave={() => hoveredRole = null}
-            class="group relative border-2 border-gray-300 px-8 py-6 lg:w-1/2 text-start transition-all duration-300 hover:border-primary hover:shadow-lg hover:-translate-y-1 active:translate-y-0"
+            class="group relative border-2 border-gray-300 px-8 py-6 lg:w-1/2 text-start opacity-60 cursor-not-allowed"
         >
             <div class="flex items-start gap-4">
                 <div class="shrink-0 mt-1">
-                    <div class="w-6 h-6 rounded-full border-2 border-gray-400 group-hover:border-primary transition-colors duration-300 flex items-center justify-center">
+                    <div class="w-6 h-6 rounded-full border-2 border-gray-400 transition-colors duration-300 flex items-center justify-center">
                         {#if hoveredRole === 'student'}
-                            <div class="w-3 h-3 rounded-full bg-primary transition-all duration-300"></div>
+                            <div class="w-3 h-3 rounded-full bg-gray-400 transition-all duration-300"></div>
                         {/if}
                     </div>
                 </div>
                 <div class="flex-1">
-                    <p class="text-xl font-semibold mb-2 text-gray-800 group-hover:text-primary transition-colors">
+                    <p class="text-xl font-semibold mb-2 text-gray-800 transition-colors">
                         Student
                     </p>
                     <p class="text-gray-600 leading-relaxed">
@@ -80,6 +80,13 @@
                     </p>
                 </div>
             </div>
+            
+            {#if hoveredRole === 'student'}
+                <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-sm rounded whitespace-nowrap shadow-lg">
+                    Under Maintenance
+                    <div class="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-gray-900"></div>
+                </div>
+            {/if}
         </button>
     </div>
 </div>
