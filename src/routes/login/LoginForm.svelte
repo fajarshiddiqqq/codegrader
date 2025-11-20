@@ -42,6 +42,7 @@
             class="bg-white rounded-md px-6 py-2 text-lg placeholder:text-base border border-gray-300"
             required
             disabled={loading}
+            autocomplete="email"
         />
     </div>
 
@@ -66,6 +67,7 @@
                 class="bg-white rounded-md px-6 py-2 text-lg placeholder:text-base border border-gray-300 w-full pr-12"
                 required
                 disabled={loading}
+                autocomplete="current-password"
             />
         </div>
     </div>
