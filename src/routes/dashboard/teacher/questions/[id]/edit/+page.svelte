@@ -17,47 +17,46 @@
         description: string;
     };
 
-    // PREFILL FIELDS
-    let title = q.title;
-    let description = q.description;
-    let starter_code = q.starter_code || "";
-    let custom_instructions = q.custom_instructions || "";
-    let difficulty = q.difficulty;
-    let visibility = q.visibility;
+    // REACTIVE STATE using $state()
+    let title = $state(q.title);
+    let description = $state(q.description);
+    let starter_code = $state(q.starter_code || "");
+    let custom_instructions = $state(q.custom_instructions || "");
+    let difficulty = $state(q.difficulty);
+    let visibility = $state(q.visibility);
+    let tags = $state(q.tags ? q.tags.join(", ") : "");
 
-    let tags = q.tags ? q.tags.join(", ") : "";
-
-    // PREFILL TEST CASES & RUBRIC
-    let test_cases: TestCase[] = q.test_cases || [];
-    let criteria: Criterion[] = q.rubric?.criteria || [];
-    let tone = q.rubric?.tone || "constructive";
+    // TEST CASES & RUBRIC
+    let test_cases: TestCase[] = $state(q.test_cases || []);
+    let criteria: Criterion[] = $state(q.rubric?.criteria || []);
+    let tone = $state(q.rubric?.tone || "constructive");
 
     // TEMP new items
-    let newTest: TestCase = {
+    let newTest: TestCase = $state({
         input_data: "",
         expected_output: "",
         is_hidden: false
-    };
+    });
 
-    let newCriterion: Criterion = {
+    let newCriterion: Criterion = $state({
         aspect: "",
         weight: 0.1,
         description: ""
-    };
+    });
 
-    let message = "";
+    let message = $state("");
 
     function addTestCase() {
         if (!newTest.input_data.trim() || !newTest.expected_output.trim()) {
             alert("Please fill in both fields");
             return;
         }
-        test_cases = [...test_cases, { ...newTest }];
+        test_cases.push({ ...newTest });
         newTest = { input_data: "", expected_output: "", is_hidden: false };
     }
 
     function removeTestCase(index: number) {
-        test_cases = test_cases.filter((_, i) => i !== index);
+        test_cases.splice(index, 1);
     }
 
     function addCriterion() {
@@ -65,12 +64,12 @@
             alert("Fill aspect + description");
             return;
         }
-        criteria = [...criteria, { ...newCriterion }];
+        criteria.push({ ...newCriterion });
         newCriterion = { aspect: "", weight: 0.1, description: "" };
     }
 
     function removeCriterion(index: number) {
-        criteria = criteria.filter((_, i) => i !== index);
+        criteria.splice(index, 1);
     }
 </script>
 
@@ -95,7 +94,7 @@
             return async ({ update, result }) => {
                 await update();
                 if (result.type === 'failure') {
-                    message = result.data?.error || "Update failed.";
+                    message = (result.data?.error as string) || "Update failed.";
                 }
             };
         }}
@@ -109,27 +108,27 @@
             
             <div class="p-6 space-y-5">
                 <div>
-                    <label class="block text-sm font-medium mb-2">Title</label>
-                    <input name="title" bind:value={title} required
+                    <label for="title" class="block text-sm font-medium mb-2">Title</label>
+                    <input id="title" name="title" bind:value={title} required
                         class="w-full border border-gray-300 px-4 py-2.5 rounded-md"/>
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium mb-2">Description</label>
-                    <textarea name="description" bind:value={description} required
+                    <label for="description" class="block text-sm font-medium mb-2">Description</label>
+                    <textarea id="description" name="description" bind:value={description} required
                         class="w-full border border-gray-300 px-4 py-2.5 rounded-md h-32 resize-none"></textarea>
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium mb-2">Custom Instructions</label>
-                    <textarea name="custom_instructions" bind:value={custom_instructions}
+                    <label for="custom_instructions" class="block text-sm font-medium mb-2">Custom Instructions</label>
+                    <textarea id="custom_instructions" name="custom_instructions" bind:value={custom_instructions}
                         class="w-full border border-gray-300 px-4 py-2.5 rounded-md h-24 resize-none"></textarea>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-sm font-medium mb-2">Difficulty</label>
-                        <select name="difficulty" bind:value={difficulty}
+                        <label for="difficulty" class="block text-sm font-medium mb-2">Difficulty</label>
+                        <select id="difficulty" name="difficulty" bind:value={difficulty}
                             class="w-full border border-gray-300 px-4 py-2.5 rounded-md bg-white">
                             <option value="easy">Easy</option>
                             <option value="medium">Medium</option>
@@ -138,8 +137,8 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-medium mb-2">Visibility</label>
-                        <select name="visibility" bind:value={visibility}
+                        <label for="visibility" class="block text-sm font-medium mb-2">Visibility</label>
+                        <select id="visibility" name="visibility" bind:value={visibility}
                             class="w-full border border-gray-300 px-4 py-2.5 rounded-md bg-white">
                             <option value="private">Private</option>
                             <option value="public">Public</option>
@@ -148,8 +147,8 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-medium mb-2">Tags</label>
-                    <input name="tags" bind:value={tags}
+                    <label for="tags" class="block text-sm font-medium mb-2">Tags</label>
+                    <input id="tags" name="tags" bind:value={tags}
                         class="w-full border border-gray-300 px-4 py-2.5 rounded-md" />
                 </div>
             </div>
@@ -162,7 +161,8 @@
             </div>
             
             <div class="p-6">
-                <textarea name="starter_code" bind:value={starter_code}
+                <label for="starter_code" class="sr-only">Starter Code</label>
+                <textarea id="starter_code" name="starter_code" bind:value={starter_code}
                     class="w-full border border-gray-300 px-4 py-2.5 rounded-md h-48 font-mono text-sm bg-gray-50 resize-none"></textarea>
             </div>
         </div>
@@ -177,31 +177,32 @@
 
                 <!-- EXISTING -->
                 <div class="space-y-3">
-                    {#each test_cases as tc, i}
+                    {#each test_cases as tc, i (i)}
                         <div class="border border-gray-200 rounded-lg p-4">
                             <div class="flex justify-between mb-3">
                                 <span class="font-medium">Test #{i + 1}</span>
-                                <button type="button" on:click={() => removeTestCase(i)}
-                                    class="text-red-600 text-sm">Remove</button>
+                                <button type="button" onclick={() => removeTestCase(i)}
+                                    class="text-red-600 text-sm hover:text-red-800">Remove</button>
                             </div>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
                                 <div>
-                                    <label class="text-xs">Input</label>
-                                    <input name={`test_cases[${i}][input_data]`} bind:value={tc.input_data}
+                                    <label for="test_input_{i}" class="text-xs block mb-1">Input</label>
+                                    <input id="test_input_{i}" name={`test_cases[${i}][input_data]`} bind:value={tc.input_data}
                                         class="border border-gray-300 px-3 py-2 rounded-md w-full text-sm font-mono"/>
                                 </div>
 
                                 <div>
-                                    <label class="text-xs">Expected</label>
-                                    <input name={`test_cases[${i}][expected_output]`} bind:value={tc.expected_output}
+                                    <label for="test_expected_{i}" class="text-xs block mb-1">Expected</label>
+                                    <input id="test_expected_{i}" name={`test_cases[${i}][expected_output]`} bind:value={tc.expected_output}
                                         class="border border-gray-300 px-3 py-2 rounded-md w-full text-sm font-mono"/>
                                 </div>
                             </div>
 
-                            <label class="flex items-center gap-2">
+                            <label class="flex items-center gap-2 cursor-pointer">
                                 <input type="checkbox" bind:checked={tc.is_hidden}
-                                    name={`test_cases[${i}][is_hidden]`} />
+                                    name={`test_cases[${i}][is_hidden]`} 
+                                    class="rounded border-gray-300"/>
                                 <span class="text-sm">Hidden</span>
                             </label>
                         </div>
@@ -214,25 +215,26 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
                         <div>
-                            <label class="text-xs">Input</label>
-                            <input bind:value={newTest.input_data}
+                            <label for="new_test_input" class="text-xs block mb-1">Input</label>
+                            <input id="new_test_input" bind:value={newTest.input_data}
                                 class="border border-gray-300 px-3 py-2 rounded-md w-full"/>
                         </div>
 
                         <div>
-                            <label class="text-xs">Expected</label>
-                            <input bind:value={newTest.expected_output}
+                            <label for="new_test_expected" class="text-xs block mb-1">Expected</label>
+                            <input id="new_test_expected" bind:value={newTest.expected_output}
                                 class="border border-gray-300 px-3 py-2 rounded-md w-full"/>
                         </div>
                     </div>
 
-                    <label class="flex items-center gap-2 mb-3">
-                        <input type="checkbox" bind:checked={newTest.is_hidden} />
+                    <label class="flex items-center gap-2 mb-3 cursor-pointer">
+                        <input type="checkbox" bind:checked={newTest.is_hidden} 
+                            class="rounded border-gray-300"/>
                         <span class="text-sm">Hidden</span>
                     </label>
 
-                    <button type="button" on:click={addTestCase}
-                        class="w-full bg-gray-900 text-white py-2 rounded-md text-sm">
+                    <button type="button" onclick={addTestCase}
+                        class="w-full bg-gray-900 text-white py-2 rounded-md text-sm hover:bg-gray-800 transition-colors">
                         Add Test Case
                     </button>
                 </div>
@@ -249,32 +251,32 @@
 
                 <!-- EXISTING -->
                 <div class="space-y-3">
-                    {#each criteria as c, i}
+                    {#each criteria as c, i (i)}
                         <div class="border border-gray-200 rounded-lg p-4">
                             <div class="flex justify-between mb-3">
                                 <span class="font-medium">Criterion #{i + 1}</span>
-                                <button type="button" on:click={() => removeCriterion(i)}
-                                    class="text-red-600 text-sm">Remove</button>
+                                <button type="button" onclick={() => removeCriterion(i)}
+                                    class="text-red-600 text-sm hover:text-red-800">Remove</button>
                             </div>
 
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
                                 <div class="md:col-span-2">
-                                    <label class="text-xs">Aspect</label>
-                                    <input name={`criteria[${i}][aspect]`} bind:value={c.aspect}
+                                    <label for="criterion_aspect_{i}" class="text-xs block mb-1">Aspect</label>
+                                    <input id="criterion_aspect_{i}" name={`criteria[${i}][aspect]`} bind:value={c.aspect}
                                         class="border border-gray-300 px-3 py-2 rounded-md w-full"/>
                                 </div>
 
                                 <div>
-                                    <label class="text-xs">Weight</label>
-                                    <input type="number" step="0.1" min="0.1" max="1.0"
+                                    <label for="criterion_weight_{i}" class="text-xs block mb-1">Weight</label>
+                                    <input id="criterion_weight_{i}" type="number" step="0.1" min="0.1" max="1.0"
                                         name={`criteria[${i}][weight]`} bind:value={c.weight}
                                         class="border border-gray-300 px-3 py-2 rounded-md w-full"/>
                                 </div>
                             </div>
 
                             <div>
-                                <label class="text-xs">Description</label>
-                                <textarea name={`criteria[${i}][description]`}
+                                <label for="criterion_desc_{i}" class="text-xs block mb-1">Description</label>
+                                <textarea id="criterion_desc_{i}" name={`criteria[${i}][description]`}
                                     bind:value={c.description}
                                     class="border border-gray-300 px-3 py-2 rounded-md w-full h-20 resize-none"></textarea>
                             </div>
@@ -288,35 +290,35 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
                         <div class="md:col-span-2">
-                            <label class="text-xs">Aspect</label>
-                            <input bind:value={newCriterion.aspect}
+                            <label for="new_criterion_aspect" class="text-xs block mb-1">Aspect</label>
+                            <input id="new_criterion_aspect" bind:value={newCriterion.aspect}
                                 class="border border-gray-300 px-3 py-2 rounded-md w-full"/>
                         </div>
 
                         <div>
-                            <label class="text-xs">Weight</label>
-                            <input type="number" step="0.1" min="0.1" max="1.0"
+                            <label for="new_criterion_weight" class="text-xs block mb-1">Weight</label>
+                            <input id="new_criterion_weight" type="number" step="0.1" min="0.1" max="1.0"
                                 bind:value={newCriterion.weight}
                                 class="border border-gray-300 px-3 py-2 rounded-md w-full"/>
                         </div>
                     </div>
 
                     <div class="mb-3">
-                        <label class="text-xs">Description</label>
-                        <textarea bind:value={newCriterion.description}
+                        <label for="new_criterion_desc" class="text-xs block mb-1">Description</label>
+                        <textarea id="new_criterion_desc" bind:value={newCriterion.description}
                             class="border border-gray-300 px-3 py-2 rounded-md w-full h-20 resize-none"></textarea>
                     </div>
 
-                    <button type="button" on:click={addCriterion}
-                        class="w-full bg-gray-900 text-white py-2 rounded-md text-sm">
+                    <button type="button" onclick={addCriterion}
+                        class="w-full bg-gray-900 text-white py-2 rounded-md text-sm hover:bg-gray-800 transition-colors">
                         Add Criterion
                     </button>
                 </div>
 
                 <!-- TONE -->
                 <div class="pt-4 border-t border-gray-200">
-                    <label class="block text-sm mb-2">Feedback Tone</label>
-                    <select name="tone" bind:value={tone}
+                    <label for="tone" class="block text-sm mb-2">Feedback Tone</label>
+                    <select id="tone" name="tone" bind:value={tone}
                         class="w-full border border-gray-300 px-4 py-2.5 rounded-md bg-white">
                         <option value="constructive">Constructive</option>
                         <option value="strict">Strict</option>
@@ -328,11 +330,11 @@
         </div>
 
         {#if message}
-            <div class="text-red-600 font-medium">{message}</div>
+            <div class="text-red-600 font-medium" role="alert">{message}</div>
         {/if}
 
         <button type="submit" formaction="?/update"
-            class="w-full bg-gray-900 hover:bg-gray-800 text-white py-3 px-6 rounded-md font-semibold">
+            class="w-full bg-gray-900 hover:bg-gray-800 text-white py-3 px-6 rounded-md font-semibold transition-colors">
             Save Changes
         </button>
     </form>

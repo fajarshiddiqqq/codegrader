@@ -1,5 +1,15 @@
 import { fail, redirect } from "@sveltejs/kit";
 
+export const load = async ({ parent, cookies }) => {
+    const token = cookies.get("access_token");
+    if (!token) throw redirect(302, "/login");
+    
+    const { question } = await parent();
+    if (question.role !== "owner" && question.role !== "editor") {
+        throw redirect(302, `/dashboard/teacher/questions`);
+    }
+}
+
 export const actions = {
     update: async ({ request, params, fetch, cookies }) => {
         const token = cookies.get("access_token");
@@ -83,49 +93,49 @@ export const actions = {
         // // ================================
         // // 3. PARSE RUBRIC
         // // ================================
-        // const criteria: Array<any> = [];
-        // const critRegex = /^criteria\[(\d+)\]\[(aspect|weight|description)\]$/;
+        const criteria: Array<any> = [];
+        const critRegex = /^criteria\[(\d+)\]\[(aspect|weight|description)\]$/;
 
-        // for (const [key, value] of form.entries()) {
-        //     const match = key.match(critRegex);
-        //     if (!match) continue;
+        for (const [key, value] of form.entries()) {
+            const match = key.match(critRegex);
+            if (!match) continue;
 
-        //     const index = Number(match[1]);
-        //     const field = match[2];
+            const index = Number(match[1]);
+            const field = match[2];
 
-        //     if (!criteria[index]) criteria[index] = {
-        //         aspect: "",
-        //         weight: 0,
-        //         description: ""
-        //     };
+            if (!criteria[index]) criteria[index] = {
+                aspect: "",
+                weight: 0,
+                description: ""
+            };
 
-        //     criteria[index][field] =
-        //         field === "weight" ? Number(value) : value.toString();
-        // }
+            criteria[index][field] =
+                field === "weight" ? Number(value) : value.toString();
+        }
 
-        // const cleanedCriteria = criteria.filter(Boolean);
+        const cleanedCriteria = criteria.filter(Boolean);
 
-        // const tone = form.get("tone") || "constructive";
+        const tone = form.get("tone") || "constructive";
 
-        // const rubricPayload = {
-        //     criteria: cleanedCriteria,
-        //     tone
-        // };
+        const rubricPayload = {
+            criteria: cleanedCriteria,
+            tone
+        };
 
-        // // 3. UPDATE RUBRIC
-        // const res3 = await fetch(`${baseUrl}/questions/${params.id}/rubric`, {
-        //     method: "PUT",
-        //     headers: {
-        //         "Content-Type": "application/json",
-        //         Authorization: `Bearer ${token}`
-        //     },
-        //     body: JSON.stringify(rubricPayload)
-        // });
-
-        // if (!res3.ok) {
-        //     const err = await res3.json().catch(() => ({}));
-        //     return fail(res3.status, { error: err.error || "Failed to update rubric" });
-        // }
+        // 3. UPDATE RUBRIC
+        const res3 = await fetch(`${baseUrl}/questions/${params.id}/rubric`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({ rubric: rubricPayload })
+        });
+        
+        if (!res3.ok) {
+            const err = await res3.json().catch(() => ({}));
+            return fail(res3.status, { error: err.error.message || "Failed to update rubric" });
+        }
 
         // SUCCESS
         throw redirect(302, `/dashboard/teacher/questions`);

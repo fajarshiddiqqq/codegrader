@@ -14,7 +14,8 @@ export const load = async ({ cookies, fetch }) => {
             }
         });
         if (!res.ok) {
-            throw redirect(302, "/login");
+            await fetch('/logout', { method: 'POST' });
+            throw redirect(302, '/login');
         }
 
         const user = await res.json();
