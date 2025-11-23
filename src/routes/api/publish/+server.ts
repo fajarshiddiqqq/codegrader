@@ -1,5 +1,6 @@
 import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
+import { resolve } from '$app/paths';
 
 export const POST: RequestHandler = async ({ request }) => {
     const formData = await request.formData();
@@ -14,7 +15,7 @@ export const POST: RequestHandler = async ({ request }) => {
 
     // Generate a random short code for the URL
     const shortCode = Math.random().toString(36).substring(2, 8);
-    const publishedUrl = `http://localhost:5173/s/${shortCode}`;
+    const publishedUrl = resolve(`/s/${shortCode}`);
 
     return json({ 
         success: true, 

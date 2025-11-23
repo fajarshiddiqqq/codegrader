@@ -1,5 +1,5 @@
 <script>
-    import "../app.css";
+    import "$lib/style/app.css";
     import { user } from "$lib/stores/user";
 
     let { data, children } = $props();

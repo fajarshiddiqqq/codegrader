@@ -19,9 +19,9 @@
 
             <div class="hidden md:flex space-x-8">
                 <a
-                    href="/questions"
+                    href="/explore"
                     class="text-gray-700 hover:text-gray-700 font-medium transition"
-                    >Questions</a
+                    >Explore</a
                 >
                 {#if data?.user}
                     <a
