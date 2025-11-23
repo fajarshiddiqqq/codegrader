@@ -1,9 +1,19 @@
 <script>
+    import { page } from '$app/state';
+    import { goto } from '$app/navigation';
     import Navbar from "$lib/components/Navbar.svelte";
     import CourseContent from "./CourseContent.svelte";
     import QuestionContent from "./QuestionContent.svelte";
+    
     let { data } = $props();
-    let activeTab = $state('courses');
+    
+    let activeTab = $derived(page.url.searchParams.get('tab') || 'courses');
+    
+    function setTab(tab) {
+        const url = new URL(page.url);
+        url.searchParams.set('tab', tab);
+        goto(url.toString(), { replaceState: true, noScroll: true });
+    }
 </script>
 
 <div class="flex flex-col min-h-screen bg-gray-100">
@@ -20,14 +30,14 @@
             <button 
                 class="tab" 
                 class:active={activeTab === 'courses'}
-                onclick={() => activeTab = 'courses'}
+                onclick={() => setTab('courses')}
             >
                 Courses
             </button>
             <button 
                 class="tab" 
                 class:active={activeTab === 'questions'}
-                onclick={() => activeTab = 'questions'}
+                onclick={() => setTab('questions')}
             >
                 Questions
             </button>

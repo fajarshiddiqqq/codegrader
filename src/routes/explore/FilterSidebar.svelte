@@ -1,13 +1,11 @@
 <script lang="ts">
     interface Question {
         id: number;
-        key: string;
         title: string;
-        desc: string;
+        description: string;
         language: string;
         difficulty: string;
         tags: string[];
-        pop: number;
     }
 
     interface Props {

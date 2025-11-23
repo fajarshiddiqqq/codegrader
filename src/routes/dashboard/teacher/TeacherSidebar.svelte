@@ -61,7 +61,7 @@
         </div>
     </div>
     <form method="POST" action="/logout" class="w-full">
-        <button class="px-6 py-2 hover:bg-gray-100 transition w-full text-start cursor-pointer font-bold flex justify-center items-center" type="submit">
+        <button class={`px-6 py-3 hover:bg-gray-100 transition w-full text-start cursor-pointer font-bold flex justify-center items-center ${isOpen ? "justify-start" : "justify-center "}`} type="submit">
             <img src="/icons/logout.svg" alt="logout" class={`inline min-w-5 h-5 mr-2 mb-1 ${isOpen ? "xl:hidden" : "xl:inline"}`} />
             <span class={`hidden ${isOpen ? "xl:inline" : "xl:hidden"}`}>Logout</span>
         </button>

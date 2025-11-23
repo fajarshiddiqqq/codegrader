@@ -1,5 +1,6 @@
 <script lang="ts">
     import FilterSidebar from "./FilterSidebar.svelte";
+    import QuestionPreviewModal from "./QuestionPreviewModal.svelte";
 
     interface Question {
         id: number;
@@ -14,8 +15,10 @@
 
     let searchQuery = $state("");
     let sortBy = $state("newest");
+    let previewQuestionId = $state<number | null>(null);
 
-    let questions = data.questions;
+    let isLogged: boolean = data.isLogged;
+    let questions: Question[] = data.questions;
     let selectedLangs: string[] = $state([]);
     let selectedDifficulties: string[] = $state([]);
     let selectedTags: string[] = $state([]);
@@ -28,6 +31,14 @@
         selectedLangs = filters.selectedLangs;
         selectedDifficulties = filters.selectedDifficulties;
         selectedTags = filters.selectedTags;
+    }
+
+    function openPreview(questionId: number) {
+        previewQuestionId = questionId;
+    }
+
+    function closePreview() {
+        previewQuestionId = null;
     }
 
     let filteredQuestions = $derived(() => {
@@ -170,7 +181,7 @@
                 </div>
             {:else}
                 <div class="flex flex-col gap-3">
-                    {#each questions as question}
+                    {#each filteredQuestions() as question}
                         <div
                             class="border border-gray-300 bg-white rounded-lg p-5"
                         >
@@ -225,13 +236,14 @@
                                 <div
                                     class="flex sm:flex-col flex-row gap-2 shrink-0 w-full sm:w-auto"
                                 >
-                                    <a
-                                        href={`/questions/${question.key}/preview`}
-                                        class="border border-slate-200 px-4 py-2 rounded-md text-sm whitespace-nowrap hover:bg-gray-50 flex-1 sm:flex-none"
-                                        >Preview</a
+                                    <button
+                                        onclick={() => openPreview(question.id)}
+                                        class="border border-slate-200 px-4 py-2 rounded-md text-sm whitespace-nowrap hover:bg-gray-50 flex-1 sm:flex-none text-center"
                                     >
+                                        Preview
+                                    </button>
                                     <a
-                                        href={`/questions/${question.key}`}
+                                        href={`/questions/${question.id}`}
                                         class="bg-primary font-semibold text-white px-4 py-2 rounded-md text-sm whitespace-nowrap hover:bg-primary/90 flex-1 sm:flex-none text-center"
                                         >Start</a
                                     >
@@ -244,3 +256,10 @@
         </div>
     </div>
 </div>
+
+<!-- Preview Modal -->
+<QuestionPreviewModal 
+    bind:questionId={previewQuestionId} 
+    onClose={closePreview}
+    {isLogged}
+/>  
