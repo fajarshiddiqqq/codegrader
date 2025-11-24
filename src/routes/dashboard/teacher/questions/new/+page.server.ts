@@ -13,6 +13,7 @@ export const actions = {
         // Extract basic fields
         const title = data.get("title")?.toString() || "";
         const description = data.get("description")?.toString() || "";
+        const function_name = data.get("function_name")?.toString() || "";
         const starter_code = data.get("starter_code")?.toString() || "";
         const custom_instructions =
             data.get("custom_instructions")?.toString() || "";
@@ -68,8 +69,8 @@ export const actions = {
         }
 
         // Validate required fields
-        if (!title || !description) {
-            return fail(400, { error: "Title and description are required." });
+        if (!title || !description || !function_name) {
+            return fail(400, { error: "Title, description, and function name are required." });
         }
 
         if (test_cases.length === 0) {
@@ -86,6 +87,7 @@ export const actions = {
         const requestBody = {
             title,
             description,
+            function_name,
             starter_code,
             difficulty,
             visibility,

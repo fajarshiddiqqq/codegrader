@@ -22,6 +22,7 @@ export const actions = {
         const payload = {
             title: form.get("title"),
             description: form.get("description"),
+            function_name: form.get("function_name"),
             starter_code: form.get("starter_code") || "",
             custom_instructions: form.get("custom_instructions") || "",
             difficulty: form.get("difficulty"),

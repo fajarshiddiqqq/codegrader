@@ -82,6 +82,11 @@
     <p class="text-gray-700 whitespace-pre-wrap">{q.description}</p>
 </div>
 
+<div class="bg-white border border-gray-200 rounded-lg p-6 mb-6">
+    <h2 class="text-lg font-semibold text-gray-900 mb-3">Function Name</h2>
+    <p class="text-gray-700">{q.function_name}</p>
+</div>
+
 <!-- Starter Code -->
 {#if q.starter_code}
     <div class="bg-white border border-gray-200 rounded-lg p-6 mb-6">

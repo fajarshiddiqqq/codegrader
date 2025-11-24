@@ -16,6 +16,7 @@
     // Basic fields
     let title: string = "";
     let description: string = "";
+    let function_name: string = "";
     let starter_code: string = "";
     let custom_instructions: string = "";
     let difficulty: "easy" | "medium" | "hard" = "easy";
@@ -119,6 +120,13 @@
                     <textarea id="description" name="description" bind:value={description} 
                         placeholder="Provide a clear explanation of what students need to accomplish..." required
                         class="w-full border border-gray-300 px-4 py-2.5 rounded-md h-32 focus:ring-2 focus:ring-gray-900 focus:border-transparent resize-none"></textarea>
+                </div>
+
+                <!-- function name -->
+                <div>
+                    <label for="function_name" class="block text-sm font-medium text-gray-700 mb-2">Function Name <span class="text-red-500">*</span></label>
+                    <input id="function_name" name="function_name" bind:value={function_name} placeholder="e.g., twoSum" required
+                        class="w-full border border-gray-300 px-4 py-2.5 rounded-md focus:ring-2 focus:ring-gray-900 focus:border-transparent" />
                 </div>
 
                 <div>

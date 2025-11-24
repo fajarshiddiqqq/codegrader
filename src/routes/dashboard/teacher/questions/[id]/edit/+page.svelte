@@ -20,6 +20,7 @@
     // REACTIVE STATE using $state()
     let title = $state(q.title);
     let description = $state(q.description);
+    let function_name = $state(q.function_name);
     let starter_code = $state(q.starter_code || "");
     let custom_instructions = $state(q.custom_instructions || "");
     let difficulty = $state(q.difficulty);
@@ -141,6 +142,20 @@
                         class="w-full border border-gray-300 px-4 py-2.5 rounded-md h-32 resize-none"
                     ></textarea>
                 </div>
+
+                <!-- function name -->
+                 <div>
+                    <label for="function_name" class="block text-sm font-medium mb-2"
+                        >Function Name</label
+                    >
+                    <input
+                        id="function_name"
+                        name="function_name"
+                        bind:value={function_name}
+                        required
+                        class="w-full border border-gray-300 px-4 py-2.5 rounded-md"
+                    />
+                 </div>
 
                 <div>
                     <label

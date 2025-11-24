@@ -8,9 +8,9 @@ export const load = async ({ url, parent }) => {
         throw redirect(302, "/dashboard/teacher/questions");
     }
 
-    // if (user.role !== "teacher") {
-    //     throw redirect(302, "/dashboard");
-    // }
+    if (user.role !== "teacher") {
+        throw redirect(302, "/dashboard");
+    }
 
     return {};
 };
