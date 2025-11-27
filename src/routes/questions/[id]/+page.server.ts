@@ -65,20 +65,60 @@ export const actions = {
         }
 
         const data = json.data;
-
+        
         return {
             success: true,
-            // pass exactly what you need
             testResults: {
+                submission_id: data.submission_id,
                 status: data.status,
                 execution_time_ms: data.execution_time_ms,
                 passed: data.passed,
                 failed: data.failed,
                 total: data.total_tests,
-                results: data.results,  // array
+                results: data.results,
                 error_message: data.error_message ?? null,
                 error_type: data.error_type ?? null
             }
+        };
+    },
+
+    feedback: async ({ request, cookies, fetch }) => {
+        const token = cookies.get("access_token");
+        if (!token) {
+            return fail(401, { error: "Not authenticated" });
+        }
+
+        const formData = await request.formData();
+        const submission_id = formData.get("submission_id");
+
+        if (!submission_id) {
+            return fail(400, { error: "submission_id is required." });
+        }
+        
+        const baseUrl = import.meta.env.VITE_BACKEND_URL;
+        const res = await fetch(`${baseUrl}/submissions/${submission_id}/feedback`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        let json: any;
+        try {
+            json = await res.json();
+        } catch {
+            return fail(res.status, { error: "Invalid JSON from server" });
+        }
+        
+        if (!json.status) {
+            return fail(400, { error: "Fetching feedback failed" });
+        }
+
+        const data = json.data;
+
+        return {
+            success: true,
+            feedback: data.feedback
         };
     }
 };
